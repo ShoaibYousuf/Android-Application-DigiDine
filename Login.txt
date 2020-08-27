@@ -1,0 +1,186 @@
+package com.example.digidine;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+public class Restaurant_Login extends AppCompatActivity {
+
+    EditText EMAIL_LOGIN;
+    EditText PASSWORD;
+    Button LOGIN;
+    Button LoginPageSignup;
+
+
+
+    private DatabaseReference reference;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_restaurant__login);
+
+        EMAIL_LOGIN = (EditText) findViewById(R.id.email_res_login);
+        PASSWORD = (EditText) findViewById(R.id.password_res_login);
+        LOGIN = (Button) findViewById(R.id.login_res_login);
+        LoginPageSignup = (Button) findViewById((R.id.btnSignupforLoginPage)) ;
+
+
+        LoginPageSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent LoginPageSignup= new Intent(Restaurant_Login.this, Restaurant_Signup.class);
+                startActivity(LoginPageSignup);
+            }
+        });
+
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Restaurant Details");
+
+
+
+    }
+
+
+
+
+    String LOG_PASS;
+
+    public void Button_Login(View view) {
+     // String Login_Email = EMAIL_LOGIN.getText().toString();
+     //   final String Login_Password = PASSWORD.getText().toString();
+
+        validateEmail();
+        validatePassword();
+
+        LOG_PASS = PASSWORD.getText().toString();
+        reference.child(LOG_PASS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                REST_INFO rest_info = dataSnapshot.getValue(REST_INFO.class);
+                if (LOG_PASS.equals(rest_info.getPassword()))
+                {
+                    Toast.makeText(Restaurant_Login.this, "Login Successful",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Restaurant_Login.this, Restaurant_Home_Page.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(Restaurant_Login.this, "Login Unsuccessful Please Try Again",Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+    }
+
+
+
+    private boolean validateEmail() {
+        String EmailInput = EMAIL_LOGIN.getEditableText().toString();
+        if (EmailInput.isEmpty()) {
+            EMAIL_LOGIN.setError("Field Cannot be empty");
+            return false;
+        } else {
+            EMAIL_LOGIN.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword() {
+        String PasswordInput = PASSWORD.getEditableText().toString();
+        if (PasswordInput.isEmpty()) {
+            PASSWORD.setError("Field Cannot be empty");
+            return false;
+        } else {
+            PASSWORD.setError(null);
+            return true;
+        }
+    }
+/*
+    public void loginUser(View view) {
+        //Validate Login Info
+        if (!validateEmail() || !validatePassword()) {
+            return;
+        } else {
+            isUser();
+        }
+    }
+
+    public void isUser() {
+
+        final String UserEnteredEmail = EMAIL_LOGIN.getEditableText().toString().trim();
+        final String UserEnteredPassword = PASSWORD.getEditableText().toString().trim();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Restaurant Details");
+        Query CheckUser = reference.orderByChild("email").equalTo(UserEnteredEmail);
+        CheckUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    EMAIL_LOGIN.setError(null);
+
+                    String passwordfromDB = dataSnapshot.child(UserEnteredEmail).child("password").getValue(String.class);
+                    if (passwordfromDB.equals(UserEnteredPassword)) {
+
+                        EMAIL_LOGIN.setError(null);
+
+                        String addressfromDB = dataSnapshot.child(UserEnteredEmail).child("address").getValue(String.class);
+                        String cityfromDB = dataSnapshot.child(UserEnteredEmail).child("city").getValue(String.class);
+                        String contactfromDB = dataSnapshot.child(UserEnteredEmail).child("contact").getValue(String.class);
+                        String emailfromDB = dataSnapshot.child(UserEnteredEmail).child("email").getValue(String.class);
+                        String first_namefromDB = dataSnapshot.child(UserEnteredEmail).child("first_name").getValue(String.class);
+                        String last_namefromDB = dataSnapshot.child(UserEnteredEmail).child("last_name").getValue(String.class);
+                        String restaurant_namefromDB = dataSnapshot.child(UserEnteredEmail).child("restaurant_name").getValue(String.class);
+
+                        // Intent intent = new Intent(getApplicationContext().Resta)
+
+                        Intent intent = new Intent(Restaurant_Login.this, Restaurant_Home_Page.class);
+                        intent.putExtra("address", addressfromDB);
+                        intent.putExtra("city", cityfromDB);
+                        intent.putExtra("contact", contactfromDB);
+                        intent.putExtra("email", emailfromDB);
+                        intent.putExtra("first_name", first_namefromDB);
+                        intent.putExtra("last_name", last_namefromDB);
+                        intent.putExtra("restaurant_name", restaurant_namefromDB);
+                        intent.putExtra("password", passwordfromDB);
+
+                        startActivity(intent);
+
+                    } else {
+                        PASSWORD.setError("Invalid Password ");
+                        PASSWORD.requestFocus();
+                    }
+                }
+                EMAIL_LOGIN.setError("No Such Email Exists");
+                EMAIL_LOGIN.requestFocus();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+ */
+
+}

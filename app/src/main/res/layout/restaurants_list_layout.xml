@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/recycler_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit"
+        android:foreground="@drawable/fork"
+        android:src="@mipmap/ic_launcher"></ImageView>
+
+    <TextView
+        android:id="@+id/recyclertxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:text="restaurants"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"></TextView>
+</LinearLayout>

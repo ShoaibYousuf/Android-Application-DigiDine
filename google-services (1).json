@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1097361781386",
+    "firebase_url": "https://digidine-2c394.firebaseio.com",
+    "project_id": "digidine-2c394",
+    "storage_bucket": "digidine-2c394.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097361781386:android:b36f7e5ae490653c25f373",
+        "android_client_info": {
+          "package_name": "com.example.digidine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097361781386-c3hsial40b6lc65t2i4u98jmaah8vqom.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCiqvOFZCMPeP2hJW_95bZRIDHx8-9Di0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097361781386-c3hsial40b6lc65t2i4u98jmaah8vqom.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

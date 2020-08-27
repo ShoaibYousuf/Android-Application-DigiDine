@@ -1,0 +1,275 @@
+package com.example.digidine;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class Restaurant_Signup extends AppCompatActivity {
+
+    private EditText CITY;
+    private EditText RESTAURANT_NAME;
+    private EditText ADDRESS;
+    private EditText FIRST_NAME;
+    private EditText LAST_NAME;
+    private EditText CONTACT;
+    private EditText EMAIL;
+    private EditText PASSWORD;
+    private Button SIGNUP;
+    private Button SignupPageLogin;
+
+
+
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
+
+    public Restaurant_Signup() {
+    }
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_restaurant_signup);
+
+
+        
+        CITY = (EditText) findViewById(R.id.city);
+        RESTAURANT_NAME = (EditText) findViewById(R.id.restaurant_name);
+        ADDRESS = (EditText) findViewById(R.id.address);
+        FIRST_NAME = (EditText) findViewById(R.id.first_name);
+        LAST_NAME = (EditText) findViewById(R.id.last_name);
+        CONTACT = (EditText) findViewById(R.id.contact);
+        EMAIL = (EditText) findViewById(R.id.email);
+        PASSWORD = (EditText) findViewById(R.id.password_signup);
+        SIGNUP = (Button) findViewById(R.id.signup);
+        SignupPageLogin=(Button) findViewById(R.id.btnSignupforLoginPage) ;
+
+  SignupPageLogin.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+          Intent SignupPageLogin= new Intent(Restaurant_Signup.this, Restaurant_Login.class);
+          startActivity(SignupPageLogin);
+      }
+  });
+
+
+
+  SIGNUP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String city = CITY .getEditableText().toString();
+                String rest_name = RESTAURANT_NAME.getEditableText().toString();
+                String address = ADDRESS.getEditableText().toString();
+                String First_Name = FIRST_NAME.getEditableText().toString();
+                String Last_Name = LAST_NAME.getEditableText().toString();
+                String Contact = CONTACT.getEditableText().toString();
+                String email = EMAIL.getEditableText().toString();
+                String password_signup = PASSWORD.getEditableText().toString();
+
+                if(city.isEmpty()){
+                    CITY.setError("CITYCannot be empty");
+                    return ;
+                }
+
+                if(rest_name.isEmpty()){
+                    RESTAURANT_NAME.setError("RESTAURANT NAME Cannot be Empty");
+                    return ;
+                }
+
+                if(address.isEmpty()){
+                    ADDRESS.setError("ADDRESS Cannot be empty");
+                    return;
+                }
+
+                if(First_Name.isEmpty()){
+                    FIRST_NAME.setError("FIRST NAME Cannot be empty");
+                    return;
+                }
+
+                if(Last_Name.isEmpty()){
+                    LAST_NAME.setError("LAST NAME Cannot be empty");
+                    return ;
+                }
+
+                if(Contact.isEmpty()){
+                    CONTACT.setError("CONTACT Cannot be empty");
+                    return ;
+                }
+
+                if(email.isEmpty()){
+                    EMAIL.setError("EMAIL Cannot be empty");
+                    return ;
+                }
+
+                if(password_signup.isEmpty()){
+                    PASSWORD.setError("PASSWORD Cannot be empty");
+                    return ;
+                }
+
+                rootNode = FirebaseDatabase.getInstance();
+                reference = rootNode.getReference("Restaurant Details");
+
+                REST_INFO restaurant_info = new REST_INFO(city,rest_name,address,First_Name,Last_Name,Contact,email,password_signup);
+                reference.child(Contact).setValue(restaurant_info);
+                Toast.makeText(Restaurant_Signup.this, "Signup Successful",Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+   /* private boolean validateCity (EditText city){
+        String cityInput = CITY.getEditableText().toString();
+        String cityPattern = "[a-zA-Z]+";
+        if(cityInput.isEmpty()){
+            CITY.setError("Field Cannot be empty");
+            return false;
+        }
+        else if(!cityInput.matches(cityPattern)){
+            CITY.setError("Invalid City Name");
+            return false;
+        }
+        else {
+            CITY.setError(null);
+            return true;
+        }
+    }
+
+
+    */
+
+   /* private boolean validateRestName (EditText rest_name){
+        String rest_name_Input = RESTAURANT_NAME.getEditableText().toString();
+
+        if(rest_name_Input.isEmpty()){
+           RESTAURANT_NAME.setError("Field Cannot be Empty");
+            return false;
+        }
+        else {
+            RESTAURANT_NAME.setError(null);
+            return true;
+        }
+    }
+
+    */
+
+   /*  private boolean validateAddress (EditText address){
+        String addressInput = ADDRESS.getEditableText().toString();
+        if(addressInput.isEmpty()){
+            ADDRESS.setError("Field Cannot be empty");
+            return false;
+        }
+        else {
+            ADDRESS.setError(null);
+            return true;
+        }
+    }
+    */
+
+   /* private boolean validateFirstName (EditText First_Name){
+        String FirstNameInput = FIRST_NAME.getEditableText().toString();
+        String validInput = "[a-zA-Z]+";
+        if(FirstNameInput.isEmpty()){
+            FIRST_NAME.setError("Field Cannot be empty");
+            return false;
+        }
+        if(!FirstNameInput.matches(validInput)){
+            FIRST_NAME.setError("Only Alphabets are Allowed");
+            return false;
+        }
+        else {
+            FIRST_NAME.setError(null);
+            return true;
+        }
+    }
+
+    */
+
+   /*   private boolean validateLastName (EditText Last_Name){
+        String LastNameInput = LAST_NAME.getEditableText().toString();
+        String validInput = "[a-zA-Z]+";
+        if(LastNameInput.isEmpty()){
+            LAST_NAME.setError("Field Cannot be empty");
+            return false;
+        }
+        if(!LastNameInput.matches(validInput)){
+            LAST_NAME.setError("Only Alphabets are Allowed");
+            return false;
+        }
+        else {
+            LAST_NAME.setError(null);
+            return true;
+        }
+    }
+
+  */
+
+   /* private boolean validateContact (EditText Contact){
+        String ContactInput = CONTACT.getEditableText().toString();
+        String ContactPattern = "^[\\d]{4}[\\d]{7}$";
+
+        if(ContactInput.isEmpty()){
+            CONTACT.setError("Field Cannot be empty");
+            return false;
+        }
+        if(!ContactInput.matches(ContactPattern)){
+            CONTACT.setError("Enter Valid Phone Number Without Spaces");
+            return false;
+        }
+        else {
+            CONTACT.setError(null);
+            return true;
+        }
+    }
+
+    */
+
+   /*   private boolean validateEmail (EditText email){
+        String EmailInput = EMAIL.getEditableText().toString();
+        String EmailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if(EmailInput.isEmpty()){
+            EMAIL.setError("Field Cannot be empty");
+            return false;
+        }
+        if (!EmailInput.matches(EmailPattern)) {
+                EMAIL.setError("Invalid Email Address");
+                return false;
+            }
+        else {
+            EMAIL.setError(null);
+            return true;
+        }
+    }
+  */
+
+   /* private boolean validatePassword (EditText password){
+        String PasswordInput = PASSWORD.getEditableText().toString();
+        String PasswordPattern = "^\\d{6}";
+
+        if(PasswordInput.isEmpty()){
+            PASSWORD.setError("Field Cannot be empty");
+            return false;
+        }
+        else if(!PasswordInput.matches(PasswordPattern)){
+            PASSWORD.setError("Invalid Password");
+            return  false;
+        }
+        else {
+            PASSWORD.setError(null);
+            return true;
+        }
+    }
+
+    */
+
+}
